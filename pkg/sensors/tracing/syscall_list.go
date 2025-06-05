@@ -35,7 +35,7 @@ func (v SyscallVal) ID() (int, error) {
 		return -1, fmt.Errorf("failed list '%s' cannot translate syscall '%s' to id: %w", v, sc, err)
 	}
 	if abi == "i386" || abi == "arm32" {
-		id |= Is32Bit
+		id = int(int64(id) | Is32Bit)
 	}
 	return id, nil
 }
@@ -100,7 +100,7 @@ func validateABI(xarg, abi string) error {
 // returns abi, syscall id
 func parseSyscall64Value(val uint64) tracingapi.MsgGenericSyscallID {
 	abi32 := false
-	if val&Is32Bit != 0 {
+	if val&uint64(Is32Bit) != 0 {
 		abi32 = true
 		val = val & (^uint64(Is32Bit))
 	}
