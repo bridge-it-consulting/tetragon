@@ -12,6 +12,12 @@ endif
 ifeq ($(UNAME_M),aarch64)
 	BPF_TARGET_ARCH ?= arm64
 endif
+ifeq ($(UNAME_M),armv7l)
+	BPF_TARGET_ARCH ?= arm
+endif
+ifeq ($(UNAME_M),arm)
+	BPF_TARGET_ARCH ?= arm
+endif
 BPF_TARGET_ARCH ?= x86
 
 ROOT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))

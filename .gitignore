@@ -25,6 +25,8 @@ compile_commands.json
 .vagrant/
 .idea
 .vscode
+.roo
+.roomodes
 cscope.files
 cscope.po.out
 cscope.out

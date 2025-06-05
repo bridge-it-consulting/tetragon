@@ -39,6 +39,12 @@ endif
 ifeq ($(UNAME_M),arm64)
 	TARGET_ARCH ?= arm64
 endif
+ifeq ($(UNAME_M),armv7l)
+	TARGET_ARCH ?= arm
+endif
+ifeq ($(UNAME_M),arm)
+	TARGET_ARCH ?= arm
+endif
 TARGET_ARCH ?= amd64
 
 # Set GOARCH to TARGET_ARCH only if it's not set so that we can still use both
@@ -51,6 +57,9 @@ ifeq ($(TARGET_ARCH),amd64)
 endif
 ifeq ($(TARGET_ARCH),arm64)
 	BPF_TARGET_ARCH ?= arm64
+endif
+ifeq ($(TARGET_ARCH),arm)
+	BPF_TARGET_ARCH ?= arm
 endif
 BPF_TARGET_ARCH ?= x86
 

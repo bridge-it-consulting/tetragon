@@ -31,8 +31,15 @@ import (
 	"github.com/cilium/tetragon/pkg/config"
 	"github.com/cilium/tetragon/pkg/defaults"
 	"github.com/spf13/cobra"
-	"golang.org/x/sys/unix"
 	"golang.org/x/term"
+)
+
+// Define constants that might not be available on all architectures
+const (
+	// BPF_FS_MAGIC is the magic number for BPF filesystem (0xCAFE4A11)
+	BPF_FS_MAGIC uint32 = 0xCAFE4A11
+	// BPF_STATS_RUN_TIME is the flag to enable BPF program runtime stats
+	BPF_STATS_RUN_TIME uint32 = 1
 )
 
 type prog struct {
@@ -89,7 +96,9 @@ func detectBpffs() (string, error) {
 		if err := syscall.Statfs(path, &st); err != nil {
 			continue
 		}
-		if st.Type != unix.BPF_FS_MAGIC {
+		// Use uint32 comparison to avoid int32 overflow on 32-bit platforms
+		// BPF_FS_MAGIC is 0xCAFE4A11 (3405662737) which overflows int32
+		if uint32(st.Type) != BPF_FS_MAGIC {
 			continue
 		}
 		if _, err := os.Stat(filepath.Join(path, "tetragon")); err != nil {
@@ -164,7 +173,7 @@ Examples:
 
 func runProgs(ctx context.Context) error {
 	// Enable bpf stats
-	stats, err := ebpf.EnableStats(uint32(unix.BPF_STATS_RUN_TIME))
+	stats, err := ebpf.EnableStats(BPF_STATS_RUN_TIME)
 	if err != nil {
 		return fmt.Errorf("failed to enable stats: %w", err)
 	}
