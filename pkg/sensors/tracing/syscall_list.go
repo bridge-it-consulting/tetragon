@@ -35,7 +35,7 @@ func (v SyscallVal) ID() (int, error) {
 		return -1, fmt.Errorf("failed list '%s' cannot translate syscall '%s' to id: %w", v, sc, err)
 	}
 	if abi == "i386" || abi == "arm32" {
-		id = int(int64(id) | Is32Bit)
+		id = int(uint32(id) | Is32Bit)
 	}
 	return id, nil
 }
