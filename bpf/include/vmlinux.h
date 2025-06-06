@@ -9,6 +9,8 @@
 #include "vmlinux_generated_x86.h"
 #elif defined(__TARGET_ARCH_arm64)
 #include "vmlinux_generated_arm64.h"
+#elif defined(__TARGET_ARCH_arm)
+#include "vmlinux_generated_arm.h"
 #endif
 
 /*

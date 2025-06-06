@@ -29,8 +29,13 @@ FUNC_INLINE __u64 syscall64_set_32bit(__u64 arg)
 		arg |= IS_32BIT;
 	return arg;
 #undef TIF_32BIT
+#elif defined(__TARGET_ARCH_arm)
+	/* ARM 32-bit is always 32-bit, set the flag */
+	arg |= IS_32BIT;
+	return arg;
 #else
 	/* unknown architecture, do nothing */
+	return arg;
 #endif
 }
 
