@@ -37,7 +37,7 @@ const (
 	ListTypeGeneratedSyscalls = 2
 	ListTypeGeneratedFtrace   = 3
 
-	Is32Bit uint32 = 0x80000000
+	Is32Bit uint32 = uint32(0x80000000)
 )
 
 var listTypeTable = map[string]uint32{
